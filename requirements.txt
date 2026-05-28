@@ -1,9 +1,7 @@
-streamlit
-opencv-python-headless
-numpy
-pillow
-tensorflow
-deepface
-moviepy
-scipy
-scikit-image
+streamlit==1.57.0
+opencv-python-headless==4.13.0.92
+numpy==2.4.6
+pillow==12.2.0
+moviepy==1.0.3
+scipy==1.17.1
+scikit-image==0.26.0
