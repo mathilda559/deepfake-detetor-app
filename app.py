@@ -169,36 +169,74 @@ if uploaded_file:
         # FEEDBACK SYSTEM
         # ------------------------------------------
 
-        st.subheader("📝 War die Analyse korrekt?")
+        # ------------------------------------------
+# FEEDBACK / KORREKTUR
+# ------------------------------------------
 
-        actual_result = st.radio(
-            "Tatsächliches Ergebnis",
-            [
-                "KI-generiert",
-                "Echt"
-            ]
+st.divider()
+
+st.subheader("📝 War die Analyse korrekt?")
+
+actual_result = st.radio(
+    "Tatsächliches Ergebnis",
+    [
+        "KI-generiert",
+        "Echt"
+    ]
+)
+
+if st.button("Analyse korrigieren"):
+
+    st.session_state["corrected_result"] = actual_result
+
+    st.success(
+        f"Ergebnis wurde korrigiert zu: {actual_result}"
+    )
+
+# ------------------------------------------
+# KORRIGIERTES ERGEBNIS ANZEIGEN
+# ------------------------------------------
+
+if "corrected_result" in st.session_state:
+
+    corrected = st.session_state["corrected_result"]
+
+    st.divider()
+
+    st.markdown("## 🔄 Korrigiertes Ergebnis")
+
+    if corrected == "KI-generiert":
+
+        st.markdown(
+            """
+            <div style="
+                background:#7f1d1d;
+                padding:30px;
+                border-radius:20px;
+                text-align:center;
+            ">
+                <h1 style="color:white;">
+                    🚨 KI-GENERIERT
+                </h1>
+            </div>
+            """,
+            unsafe_allow_html=True
         )
 
-        if st.button("Feedback senden"):
+    else:
 
-            feedback_data = pd.DataFrame([
-                {
-                    "prediction": prediction,
-                    "actual_result": actual_result,
-                    "ai_score": ai_score,
-                    "real_score": real_score
-                }
-            ])
-
-            file_exists = os.path.exists("feedback.csv")
-
-            feedback_data.to_csv(
-                "feedback.csv",
-                mode="a",
-                header=not file_exists,
-                index=False
-            )
-
-            st.success(
-                "Vielen Dank! Dein Feedback wurde gespeichert."
-            )
+        st.markdown(
+            """
+            <div style="
+                background:#14532d;
+                padding:30px;
+                border-radius:20px;
+                text-align:center;
+            ">
+                <h1 style="color:white;">
+                    ✅ ECHTES VIDEO
+                </h1>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
